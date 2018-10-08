@@ -1,27 +1,84 @@
 <div class="container">
-  <p class="mat-display-4">Display 4</p>
-  <p class="mat-display-3">Display 3</p>
-  <p class="mat-display-2">Display 2</p>
-  <p class="mat-display-1">Display 1</p>
-  <h1 class="mat-headline">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
-  <h2 class="mat-title">Title</h2>
-  <h3 class="mat-subheading-2">Subheading 2</h3>
-  <h4 class="mat-subheading-1">Subheading 1</h4>
-  <p class="mat-body-1">Body 1</p>
-  <p class="mat-body-2">Body 2</p>
-  <p class="mat-caption">Caption</p>
-  <div>
-    <button mat-raised-button color="primary">Button</button>
-  </div>
-  <mat-form-field class="mt-20">
-    <input matInput placeholder="Placeholder" value="Input">
-  </mat-form-field>
-  <div class="mt-20">
-    <img src="assets/background.jpg" style="width: 120px"/><br>
-  </div>
-  <div class="mt-20">
-    <i class="material-icons">add</i>
-  </div>
+  <table mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="pgm">
+      <th mat-header-cell *matHeaderCellDef> PGM </th>
+      <td mat-cell *matCellDef="let element"> {{element.pgm}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="horse">
+      <th mat-header-cell *matHeaderCellDef> Horse </th>
+      <td mat-cell *matCellDef="let element"> {{element.horse}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="odds">
+      <th mat-header-cell *matHeaderCellDef> Odds </th>
+      <td mat-cell *matCellDef="let element"> {{element.odds}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="winPool">
+      <th mat-header-cell *matHeaderCellDef> Win Pool </th>
+      <td mat-cell *matCellDef="let element"> {{element.winPool}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="oddsDesc">
+      <th mat-header-cell *matHeaderCellDef> Odds Desc </th>
+      <td mat-cell *matCellDef="let element"> {{element.oddsDesc}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="oddsAdj">
+      <th mat-header-cell *matHeaderCellDef> Odds Adj </th>
+      <td mat-cell *matCellDef="let element"> {{element.oddsAdj}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="rating">
+      <th mat-header-cell *matHeaderCellDef> Rating </th>
+      <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef> Rank </th>
+      <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="probability">
+      <th mat-header-cell *matHeaderCellDef> Probability </th>
+      <td mat-cell *matCellDef="let element"> {{element.probability}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="ev">
+      <th mat-header-cell *matHeaderCellDef> Ev </th>
+      <td mat-cell *matCellDef="let element"> {{element.ev}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="ep">
+      <th mat-header-cell *matHeaderCellDef> Ep </th>
+      <td mat-cell *matCellDef="let element"> {{element.ep}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="edge">
+      <th mat-header-cell *matHeaderCellDef> Edge </th>
+      <td mat-cell *matCellDef="let element"> {{element.edge}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="bet">
+      <th mat-header-cell *matHeaderCellDef> Bet </th>
+      <td mat-cell *matCellDef="let element"> {{element.bet}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>

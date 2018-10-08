@@ -1,11 +1,11 @@
 .container {
-  height: 100%;
-  text-align: center;
-
-  
-  background-size: cover; /* version standardisée */
+  padding: 16px;
 
   .mt-20 {
     margin-top: 20px;
+  }
+
+  table {
+    width: 100%;
   }
 }
