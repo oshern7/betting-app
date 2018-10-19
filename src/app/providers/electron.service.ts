@@ -1,34 +1,89 @@
 import { Injectable } from '@angular/core';
+import { ipcRenderer } from 'electron';
+import { Observable } from 'rxjs';
 
-// If you import a module but never use any of the imported values other than as TypeScript types,
-// the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote } from 'electron';
-import * as childProcess from 'child_process';
-import * as fs from 'fs';
+import { DataService } from './data.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ElectronService {
 
   ipcRenderer: typeof ipcRenderer;
-  webFrame: typeof webFrame;
-  remote: typeof remote;
-  childProcess: typeof childProcess;
-  fs: typeof fs;
 
-  constructor() {
+  constructor(private data: DataService) {
     // Conditional imports
     if (this.isElectron()) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
-      this.webFrame = window.require('electron').webFrame;
-      this.remote = window.require('electron').remote;
-
-      this.childProcess = window.require('child_process');
-      this.fs = window.require('fs');
     }
   }
 
   isElectron = () => {
     return window && window.process && window.process.type;
+  }
+
+  getTracks() {
+    this.send('get-tracks')
+      .subscribe((res: any) => {
+        if (res.success) {
+          this.data.setTracks(res.tracks);
+        }
+      });
+  }
+
+  getRaces(track) {
+    this.send('get-races', { track })
+      .subscribe((res: any) => {
+        if (res.success) {
+          this.data.setRaces(res.races);
+        }
+      });
+  }
+
+  getModels() {
+    this.send('get-models')
+      .subscribe((res: any) {
+        if (res.success) {
+          this.data.setModels(res.models);
+        }
+      });
+  }
+
+  initSocket() {
+    this.send('init-socket').subscribe(() => {});
+  }
+
+  listenToFeeds() {
+    this.listen('feed').subscribe((data) => {
+      this.data.setRecords(data);
+    });
+  }
+
+  setRoom(date, track, race, model) {
+    this.send('set-room', {date, track, race, model})
+      .subscribe(() => {})
+  }
+
+  private listen(ch) {
+    return new Observable(observer => {
+      this.ipcRenderer.on(ch, (event, args) => {
+        console.log('Listen to ', ch, args)
+        observer.next(args);
+      });
+    });
+  }
+
+  private send(ch, args?) {
+    this.ipcRenderer.send(ch, args);
+
+    console.log('Call', ch, args);
+
+    return new Observable(observer => {
+      this.ipcRenderer.once(ch, (event, args1) => {
+        console.log('Received', ch, args1)
+        observer.next(args1);
+      });
+    });
   }
 
 }

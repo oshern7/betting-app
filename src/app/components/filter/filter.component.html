@@ -1,0 +1,43 @@
+<div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date" readonly>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="TRACK CODE" [(ngModel)]="track" (selectionChange)="getRaces()" (openedChange)="openTracks($event)">
+      <mat-option [value]="tr" *ngFor="let tr of tracks">{{ tr }}</mat-option>
+      <mat-option *ngIf="!tracks.length">No tracks</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="RACE" [(ngModel)]="race">
+      <mat-option [value]="r" *ngFor="let r of races">{{ r }}</mat-option>
+      <mat-option *ngIf="!races.length">No races found. Please choose a track.</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="MODEL" [(ngModel)]="model">
+      <mat-option [value]="m" *ngFor="let m of models">{{ m }}</mat-option>
+      <mat-option *ngIf="!models.length">No models uploaded yet.</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<!--
+  <mat-form-field>
+    <input type="number" matInput placeholder="MTP"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="number" matInput placeholder="MODEL"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" matInput placeholder="BALANCE" value="$10,100"/>
+  </mat-form-field>
+ -->
+  <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
+</div>
