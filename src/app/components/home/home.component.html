@@ -28,19 +28,19 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="oddsDesc">
       <th mat-header-cell *matHeaderCellDef> Odds Desc </th>
-      <td mat-cell *matCellDef="let element"> {{element.oddsDesc}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.oddsDesc|number:'1.0-4'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="oddsAdj">
       <th mat-header-cell *matHeaderCellDef> Odds Adj </th>
-      <td mat-cell *matCellDef="let element"> {{element.oddsAdj}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.oddsAdj|number:'1.0-4'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="rating">
       <th mat-header-cell *matHeaderCellDef> Rating </th>
-      <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.rating|number:'1.0-3'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
@@ -52,25 +52,25 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="probability">
       <th mat-header-cell *matHeaderCellDef> Probability </th>
-      <td mat-cell *matCellDef="let element"> {{element.probability}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.probability|number:'1.0-1'}}% </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="ev">
       <th mat-header-cell *matHeaderCellDef> Ev </th>
-      <td mat-cell *matCellDef="let element"> {{element.ev}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.ev|number:'1.0-2'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="ep">
       <th mat-header-cell *matHeaderCellDef> Ep </th>
-      <td mat-cell *matCellDef="let element"> {{element.ep}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.ep|number:'1.0-4'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="edge">
       <th mat-header-cell *matHeaderCellDef> Edge </th>
-      <td mat-cell *matCellDef="let element"> {{element.edge}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.edge|number:'1.0-4'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->

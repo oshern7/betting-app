@@ -42,7 +42,7 @@ export class ElectronService {
 
   getModels() {
     this.send('get-models')
-      .subscribe((res: any) {
+      .subscribe((res: any) => {
         if (res.success) {
           this.data.setModels(res.models);
         }

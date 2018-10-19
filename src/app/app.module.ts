@@ -31,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     FilterComponent,
-    WebviewDirective
+    WebviewDirective,
   ],
   imports: [
     BrowserModule,

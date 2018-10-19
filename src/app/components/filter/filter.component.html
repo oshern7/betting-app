@@ -1,6 +1,6 @@
 <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
   <mat-form-field>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date" readonly>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date" (click)="picker.open()" readonly>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -26,18 +26,15 @@
     </mat-select>
   </mat-form-field>
 
-<!--
-  <mat-form-field>
-    <input type="number" matInput placeholder="MTP"/>
-  </mat-form-field>
-
-  <mat-form-field>
-    <input type="number" matInput placeholder="MODEL"/>
-  </mat-form-field>
-
-  <mat-form-field>
-    <input type="text" matInput placeholder="BALANCE" value="$10,100"/>
-  </mat-form-field>
- -->
   <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
+</div>
+
+<div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+  <mat-form-field>
+    <input type="number" matInput placeholder="MTP" [value]="data.mtp" readonly/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" matInput placeholder="BALANCE" [value]="10100 | currency"/>
+  </mat-form-field>
 </div>

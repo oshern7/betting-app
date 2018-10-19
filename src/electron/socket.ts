@@ -2,8 +2,14 @@ import { ipcMain } from 'electron';
 import * as io from 'socket.io-client';
 import { BASE_URL } from './api';
 
+let socket;
+
 export default (win) => {
-  const socket = io(BASE_URL);
+  if (socket) {
+    socket.disconnect();
+  }
+
+  socket = io(BASE_URL);
 
   // socket channels
   socket.on('connect', () => {
@@ -15,7 +21,6 @@ export default (win) => {
   });
 
   socket.on('feed', (data) => {
-    console.log('Get feed', data)
     win.webContents.send('feed', data);
   });
 

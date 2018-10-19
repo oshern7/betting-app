@@ -49,6 +49,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     );
 
     this.electron.getTracks();
+    this.electron.getModels();
   }
 
   ngOnDestroy() {
