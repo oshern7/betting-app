@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { map, switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 
 import { DataService } from '../../providers/data.service';
 import { ElectronService } from '../../providers/electron.service';
+import { UploadTypeComponent } from '../upload-type/upload-type.component';
 import { fx2 } from '../../utils';
 
 @Component({
@@ -12,6 +14,7 @@ import { fx2 } from '../../utils';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit, OnDestroy {
+  @ViewChild('fileControl') fileControl:ElementRef;
 
   tracks = [];
   races = [];
@@ -26,7 +29,8 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   constructor(
     public data: DataService,
-    private electron: ElectronService
+    private electron: ElectronService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -48,7 +52,8 @@ export class FilterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.electron.getTracks();
+    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+    this.electron.getTracksByDate(d);
     this.electron.getModels();
   }
 
@@ -60,12 +65,14 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   getRaces() {
     this.race = '';
-    this.electron.getRaces(this.track);
+    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+    this.electron.getRacesByDateAndTrack(d, this.track);
   }
 
   openTracks(opened) {
     if(opened) {
-      this.electron.getTracks();
+      const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+      this.electron.getTracksByDate(d);
     }
   }
 
@@ -79,5 +86,9 @@ export class FilterComponent implements OnInit, OnDestroy {
   change(ev) {
     const balance = ev.target.value.replace(/[\s\$,]/g, '');
     this.data.setBalance(+balance);
+  }
+
+  openUploadTypeSheet() {
+    this.dialog.open(UploadTypeComponent);
   }
 }

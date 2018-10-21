@@ -27,6 +27,8 @@
   </mat-form-field>
 
   <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
+
+  <button class="mb-8" mat-raised-button color="primary" (click)="openUploadTypeSheet()">Upload</button>
 </div>
 
 <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
@@ -37,4 +39,14 @@
   <mat-form-field>
     <input type="text" matInput placeholder="BALANCE" [value]="data.balance | async | currency" (change)="change($event)"/>
   </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-select placeholder="Bet Type" [(ngModel)]="betType">
+      <mat-option value="manual">Manually</mat-option>
+      <mat-option value="mtp">Based on MTP</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" *ngIf="betType==='manual'">Bet</button>
 </div>
