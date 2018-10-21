@@ -11,6 +11,8 @@ export class Row {
   ev: number;
   ep: number;
   edge: number;
+  betSize: number;
+  kelly: number;
   bet: number;
 
   constructor(data?) {
@@ -27,6 +29,8 @@ export class Row {
       this.setNumber(data, 'ev');
       this.setNumber(data, 'ep');
       this.setNumber(data, 'edge');
+      this.setNumber(data, 'betSize');
+      this.setNumber(data, 'kelly');
     }
   }
 

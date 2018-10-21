@@ -52,7 +52,7 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="probability">
       <th mat-header-cell *matHeaderCellDef> Probability </th>
-      <td mat-cell *matCellDef="let element"> {{element.probability|number:'1.0-1'}}% </td>
+      <td mat-cell *matCellDef="let element"> <span *ngIf="element.odds!=='SC'">{{element.probability|number:'1.0-1'}}%</span> </td>
     </ng-container>
 
     <!-- Symbol Column -->
@@ -62,21 +62,21 @@
     </ng-container>
 
     <!-- Symbol Column -->
-    <ng-container matColumnDef="ep">
-      <th mat-header-cell *matHeaderCellDef> Ep </th>
-      <td mat-cell *matCellDef="let element"> {{element.ep|number:'1.0-4'}} </td>
-    </ng-container>
-
-    <!-- Symbol Column -->
     <ng-container matColumnDef="edge">
       <th mat-header-cell *matHeaderCellDef> Edge </th>
       <td mat-cell *matCellDef="let element"> {{element.edge|number:'1.0-4'}} </td>
     </ng-container>
 
     <!-- Symbol Column -->
+    <ng-container matColumnDef="betSize">
+      <th mat-header-cell *matHeaderCellDef> Bet Size </th>
+      <td mat-cell *matCellDef="let element"> {{element.betSize|number: '1.0-3' }} % </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
     <ng-container matColumnDef="bet">
       <th mat-header-cell *matHeaderCellDef> Bet </th>
-      <td mat-cell *matCellDef="let element"> {{element.bet}} </td>
+      <td mat-cell *matCellDef="let element"> {{ element.bet|number: '1.0-4' }} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

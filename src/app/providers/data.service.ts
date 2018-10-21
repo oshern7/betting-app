@@ -10,6 +10,7 @@ export class DataService {
   races = new BehaviorSubject([]);
   models = new BehaviorSubject([]);
   records = new BehaviorSubject([]);
+  balance = new BehaviorSubject(0);
   mtp = '';
 
   constructor() { }
@@ -31,6 +32,10 @@ export class DataService {
     if (records.length > 0) {
       this.mtp = records[0].mtp;
     }
+  }
+
+  setBalance(balance) {
+    this.balance.next(balance);
   }
 
 }

@@ -6,5 +6,5 @@
 export const AppConfig = {
   production: false,
   environment: 'DEV',
-  BASE_URL: 'http://localhost:3000'
+  BASE_URL: 'http://18.224.136.89:3000'
 };

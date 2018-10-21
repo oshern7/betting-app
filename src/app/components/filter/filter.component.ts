@@ -25,7 +25,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(
-    private data: DataService,
+    public data: DataService,
     private electron: ElectronService
   ) { }
 
@@ -74,5 +74,10 @@ export class FilterComponent implements OnInit, OnDestroy {
       const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
       this.electron.setRoom(d, this.track, this.race, this.model);
     }
+  }
+
+  change(ev) {
+    const balance = ev.target.value.replace(/[\s\$,]/g, '');
+    this.data.setBalance(+balance);
   }
 }

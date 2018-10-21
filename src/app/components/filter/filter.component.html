@@ -35,6 +35,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input type="text" matInput placeholder="BALANCE" [value]="10100 | currency"/>
+    <input type="text" matInput placeholder="BALANCE" [value]="data.balance | async | currency" (change)="change($event)"/>
   </mat-form-field>
 </div>
