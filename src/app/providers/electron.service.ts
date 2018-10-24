@@ -22,8 +22,8 @@ export class ElectronService {
     return window && window.process && window.process.type;
   }
 
-  getTracks() {
-    this.send('get-tracks')
+  getTracksByDate(date) {
+    this.send('get-tracks', { date })
       .subscribe((res: any) => {
         if (res.success) {
           this.data.setTracks(res.tracks);
@@ -31,8 +31,8 @@ export class ElectronService {
       });
   }
 
-  getRaces(track) {
-    this.send('get-races', { track })
+  getRacesByDateAndTrack(date, track) {
+    this.send('get-races', { track, date })
       .subscribe((res: any) => {
         if (res.success) {
           this.data.setRaces(res.races);
@@ -61,7 +61,24 @@ export class ElectronService {
 
   setRoom(date, track, race, model) {
     this.send('set-room', {date, track, race, model})
-      .subscribe(() => {})
+      .subscribe(() => {});
+  }
+
+  uploadRatings(content) {
+    this.send('upload-ratings', { content })
+      .subscribe(() => {});
+  }
+
+  uploadBettingModels(content) {
+    this.send('upload-betting-models', { content })
+      .subscribe(() => {
+        this.getModels();
+      });
+  }
+
+  uploadRebates(content) {
+    this.send('upload-rebates', { content })
+      .subscribe(() => {});
   }
 
   private listen(ch) {

@@ -20,17 +20,23 @@ function createWindow() {
     height: size.height
   });
 
+  let BASE_URL = process.env.BASE_API_URL;
+
   if (serve) {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
     });
     win.loadURL('http://localhost:4201');
+    if (!BASE_URL) {
+      BASE_URL = 'http://localhost:3000';
+    }
   } else {
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
       protocol: 'file:',
       slashes: true
     }));
+    BASE_URL = 'http://18.224.136.89:3000';
   }
 
   win.webContents.openDevTools();
@@ -43,7 +49,7 @@ function createWindow() {
     win = null;
   });
 
-  initIPC(win);
+  initIPC(win, BASE_URL);
 }
 
 try {

@@ -24,6 +24,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   track = '';
   race = '';
   model = '';
+  betType = '';
 
   subscriptions: Subscription[] = [];
 
@@ -52,8 +53,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       })
     );
 
-    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
-    this.electron.getTracksByDate(d);
+    this.getTracks();
     this.electron.getModels();
   }
 
@@ -71,9 +71,13 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   openTracks(opened) {
     if(opened) {
-      const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
-      this.electron.getTracksByDate(d);
+      this.getTracks();
     }
+  }
+
+  getTracks() {
+    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+    this.electron.getTracksByDate(d);
   }
 
   filter() {

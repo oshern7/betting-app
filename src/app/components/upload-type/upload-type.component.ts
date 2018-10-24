@@ -19,7 +19,7 @@ export class UploadTypeComponent implements OnInit {
   ngOnInit() {
   }
 
-  upload(type) {
+  upload() {
     if (this.content && this.type) {
       switch (this.type) {
         case "ratings":

@@ -1,11 +1,22 @@
 import { ipcMain } from 'electron';
-import { getTracks, getRacesByTrack, getModels } from './api';
+import api from './api';
 import initSocket from './socket';
 
-export default (win) => {
+export default (win, baseUrl) => {
+
+  const {
+    getTracksByDate,
+    getRacesByDateAndTrack,
+    getModels,
+    uploadRatings,
+    uploadRebates,
+    uploadBettingModels
+  } = api(baseUrl);
+
   ipcMain.on('get-tracks', async (event, args) => {
     try {
-      const { tracks } = await getTracks();
+      const { date } = args;
+      const { tracks } = await getTracksByDate(date);
       event.sender.send('get-tracks', { success: 1, tracks });
     } catch (err) {
       console.log(err);
@@ -15,7 +26,8 @@ export default (win) => {
 
   ipcMain.on('get-races', async (event, args) => {
     try {
-      const { races } = await getRacesByTrack(args.track);
+      const { date, track } = args;
+      const { races } = await getRacesByDateAndTrack(date, track);
       event.sender.send('get-races', { success: 1, races });
     } catch (err) {
       console.log(err);
@@ -33,8 +45,41 @@ export default (win) => {
     }
   });
 
+
+  ipcMain.on('upload-ratings', async (event, args) => {
+    try {
+      const { models } = await uploadRatings(args.content);
+      event.sender.send('upload-ratings', { success: 1 });
+    } catch (err) {
+      console.log(err);
+      event.sender.send('upload-ratings', { success: 0, err: err.message });
+    }
+  });
+
+
+  ipcMain.on('upload-betting-models', async (event, args) => {
+    try {
+      const { models } = await uploadBettingModels(args.content);
+      event.sender.send('upload-betting-models', { success: 1 });
+    } catch (err) {
+      console.log(err);
+      event.sender.send('upload-betting-models', { success: 0, err: err.message });
+    }
+  });
+
+
+  ipcMain.on('upload-rebates', async (event, args) => {
+    try {
+      const { models } = await uploadRebates(args.content);
+      event.sender.send('upload-rebates', { success: 1 });
+    } catch (err) {
+      console.log(err);
+      event.sender.send('upload-rebates', { success: 0, err: err.message });
+    }
+  });
+
   ipcMain.on('init-socket', (event, args) => {
-    initSocket(win);
+    initSocket(win, baseUrl);
     event.sender.send('init-socket', { success: 1 });
-  })
+  });
 }

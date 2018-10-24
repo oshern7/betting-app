@@ -4,9 +4,11 @@ import {
   MatCheckboxModule,
   MatNativeDateModule,
   MatDatepickerModule,
+  MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatListModule,
   MatSelectModule,
   MatTableModule,
 } from '@angular/material';
@@ -17,9 +19,11 @@ import {
     MatCheckboxModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatSelectModule,
     MatTableModule
   ],
@@ -28,9 +32,11 @@ import {
     MatCheckboxModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatSelectModule,
     MatTableModule
   ]

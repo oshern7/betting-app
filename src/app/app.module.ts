@@ -20,6 +20,7 @@ import { WebviewDirective } from './directives/webview.directive';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { UploadTypeComponent } from './components/upload-type/upload-type.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,6 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     FilterComponent,
+    UploadTypeComponent,
     WebviewDirective,
   ],
   imports: [
@@ -49,6 +51,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MaterialModule,
     FlexLayoutModule
   ],
+  entryComponents: [UploadTypeComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
