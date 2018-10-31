@@ -87,10 +87,11 @@ export default (win, baseUrl) => {
       fs.writeFileSync('bet.csv', args);
     
       const formData = new FormData();
+      formData.append('proc', 'wagr');
       formData.append('wagr', fs.createReadStream('bet.csv'));
       await uploadBetting(formData);
 
-      // fs.unlinkSync('bet.csv');
+      fs.unlinkSync('bet.csv');
 
       event.sender.send('upload-betting', { success: 1 });
     } catch(err) {
