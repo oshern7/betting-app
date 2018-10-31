@@ -54,8 +54,8 @@ export class ElectronService {
   }
 
   listenToFeeds() {
-    this.listen('feed').subscribe((data) => {
-      this.data.setRecords(data);
+    this.listen('feed').subscribe((data: any) => {
+      this.data.setRecords(data && data.data);
     });
   }
 
@@ -81,6 +81,11 @@ export class ElectronService {
       .subscribe(() => {});
   }
 
+  uploadBets(data) {
+    this.send('upload-betting', data)
+      .subscribe(() => {})
+  }
+
   private listen(ch) {
     return new Observable(observer => {
       this.ipcRenderer.on(ch, (event, args) => {
@@ -93,12 +98,15 @@ export class ElectronService {
   private send(ch, args?) {
     this.ipcRenderer.send(ch, args);
 
-    console.log('Call', ch, args);
+    console.log('Call', ch);
+    console.log(args);
 
     return new Observable(observer => {
       this.ipcRenderer.once(ch, (event, args1) => {
-        console.log('Received', ch, args1)
+        console.log('Received', ch);
+        console.log(args1)
         observer.next(args1);
+        observer.complete();
       });
     });
   }

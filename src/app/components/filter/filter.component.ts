@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { map, switchMap } from 'rxjs/operators';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { DataService } from '../../providers/data.service';
 import { ElectronService } from '../../providers/electron.service';
 import { UploadTypeComponent } from '../upload-type/upload-type.component';
-import { fx2 } from '../../utils';
+import { dateStr } from '../../utils';
 
 @Component({
   selector: 'app-filter',
@@ -14,6 +13,7 @@ import { fx2 } from '../../utils';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit, OnDestroy {
+  @Output() onBet = new EventEmitter();
   @ViewChild('fileControl') fileControl:ElementRef;
 
   tracks = [];
@@ -55,6 +55,14 @@ export class FilterComponent implements OnInit, OnDestroy {
       })
     );
 
+    this.subscriptions.push(
+      this.data.onMTP.subscribe(() => {
+        if (this.betType === 'mtp') {
+          this.bet();
+        }
+      })
+    );
+
     this.getTracks();
     this.electron.getModels();
   }
@@ -67,7 +75,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   getRaces() {
     this.race = '';
-    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+    const d = dateStr(this.date);
     this.electron.getRacesByDateAndTrack(d, this.track);
   }
 
@@ -78,13 +86,14 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   getTracks() {
-    const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+    const d = dateStr(this.date);
     this.electron.getTracksByDate(d);
   }
 
   filter() {
     if (this.date && this.track && this.race && this.model) {
-      const d = `${this.date.getFullYear()}-${fx2(this.date.getMonth()+1)}-${fx2(this.date.getDate())}`;
+      const d = dateStr(this.date);
+      this.data.setMTP(-1);
       this.electron.setRoom(d, this.track, this.race, this.model);
     }
   }
@@ -96,5 +105,13 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   openUploadTypeSheet() {
     this.dialog.open(UploadTypeComponent);
+  }
+
+  bet() {
+    this.onBet.emit({
+      date: dateStr(this.date),
+      track: this.track,
+      race: this.race
+    });
   }
 }

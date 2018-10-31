@@ -14,6 +14,7 @@ export class Row {
   betSize: number;
   kelly: number;
   bet: number;
+  event: string;
 
   constructor(data?) {
     if (data) {
@@ -31,6 +32,7 @@ export class Row {
       this.setNumber(data, 'edge');
       this.setNumber(data, 'betSize');
       this.setNumber(data, 'kelly');
+      this.setString(data, 'event');
     }
   }
 

@@ -33,7 +33,7 @@
 
 <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
   <mat-form-field>
-    <input type="number" matInput placeholder="MTP" [value]="data.mtp" readonly/>
+    <input type="number" matInput placeholder="MTP" [value]="data.mtp === -1 ? '' : data.mtp" readonly/>
   </mat-form-field>
 
   <mat-form-field>
@@ -48,5 +48,5 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" *ngIf="betType==='manual'">Bet</button>
+  <button mat-raised-button color="primary" *ngIf="betType==='manual'" (click)="bet()">Bet</button>
 </div>

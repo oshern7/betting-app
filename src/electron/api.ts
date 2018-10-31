@@ -21,7 +21,7 @@ export default (BASE_URL) => {
     })
     .then(res => res.json());
 
-   return {
+  return {
     getTracksByDate: (date) =>
       postData('/records/tracks', { date }),
     getRacesByDateAndTrack: (date, track) =>
@@ -33,7 +33,12 @@ export default (BASE_URL) => {
     uploadBettingModels: (content) =>
       postRawData('/config/models', content),
     uploadRebates: (content) =>
-      postRawData('/config/rebates', content)
+      postRawData('/config/rebates', content),
+    uploadBetting: (formData) =>
+      fetch('https://dfu.xb-online.com/wagerupload/betupload.aspx', {
+        method: 'POST',
+        body: formData
+      })
    }
 
 }

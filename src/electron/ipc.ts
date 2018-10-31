@@ -1,6 +1,8 @@
 import { ipcMain } from 'electron';
 import api from './api';
 import initSocket from './socket';
+import * as fs from 'fs';
+import * as FormData from 'form-data';
 
 export default (win, baseUrl) => {
 
@@ -10,7 +12,8 @@ export default (win, baseUrl) => {
     getModels,
     uploadRatings,
     uploadRebates,
-    uploadBettingModels
+    uploadBettingModels,
+    uploadBetting
   } = api(baseUrl);
 
   ipcMain.on('get-tracks', async (event, args) => {
@@ -70,11 +73,29 @@ export default (win, baseUrl) => {
 
   ipcMain.on('upload-rebates', async (event, args) => {
     try {
-      const { models } = await uploadRebates(args.content);
+      await uploadRebates(args.content);
       event.sender.send('upload-rebates', { success: 1 });
     } catch (err) {
       console.log(err);
       event.sender.send('upload-rebates', { success: 0, err: err.message });
+    }
+  });
+
+  ipcMain.on('upload-betting', async (event, args) => {
+    // Save bet.csv
+    try {
+      fs.writeFileSync('bet.csv', args);
+    
+      const formData = new FormData();
+      formData.append('wagr', fs.createReadStream('bet.csv'));
+      await uploadBetting(formData);
+
+      // fs.unlinkSync('bet.csv');
+
+      event.sender.send('upload-betting', { success: 1 });
+    } catch(err) {
+      console.log(err);
+      event.sender.send('upload-betting', { success: 0, err: err.message });
     }
   });
 

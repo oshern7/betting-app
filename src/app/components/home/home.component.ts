@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Row } from '../../models/row';
+import { AppConfig } from '../../../environments/environment';
 import { DataService } from '../../providers/data.service';
+import { ElectronService } from '../../providers/electron.service';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +13,7 @@ import { DataService } from '../../providers/data.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(FilterComponent) filter: FilterComponent;
 
   displayedColumns: string[] = ['pgm', 'horse', 'odds', 'winPool', 'oddsDesc', 'oddsAdj', 'rating', 'rank', 'probability', 'ev', 'edge', 'betSize', 'bet'];
   dataSource: Row[] = [];
@@ -18,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   mtp = '';
 
-  constructor(public data: DataService) { }
+  constructor(public data: DataService, private electron: ElectronService) { }
 
   ngOnInit() {
     this.subscriptions.push(
@@ -53,4 +57,33 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  bet(ev) {
+    // const csv = this.dataSource.filter(row => row.bet >= 2)
+    //   .map(row => [
+    //       AppConfig.accountNumber,
+    //       AppConfig.accountPin,
+    //       ev.date,
+    //       ev.track,
+    //       ev.race,
+    //       'WIN',
+    //       row.pgm,
+    //       2,
+    //       'WHEEL'
+    //     ].join(',')
+    //   ).join('\n');
+
+    const csv = [
+      AppConfig.accountNumber,
+      AppConfig.accountPin,
+      ev.date,
+      this.dataSource[0].event,
+      ev.race,
+      'WIN',
+      1,
+      2,
+      'WHEEL'
+    ].join(',');
+
+    this.electron.uploadBets(csv);
+  }
 }
