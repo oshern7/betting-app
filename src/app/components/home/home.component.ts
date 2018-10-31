@@ -25,6 +25,15 @@ export class HomeComponent implements OnInit {
       this.data.records.subscribe(records => {
         this.dataSource = records;
         this.calcBet(this.data.balance.value);
+        this.dataSource.sort((a, b) => {
+          if (a.odds === null && b.odds !== null) {
+            return 1;
+          } else if (b.odds === null && a.odds !== null) {
+            return -1;
+          }
+
+          return Number(a.pgm) - Number(b.pgm);
+        })
       })
     );
 

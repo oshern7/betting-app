@@ -38,12 +38,14 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.data.tracks.subscribe(tracks => {
         this.tracks = tracks;
+        this.tracks.sort();
       })
     );
 
     this.subscriptions.push(
       this.data.races.subscribe(races => {
         this.races = races;
+        this.races.sort();
       })
     );
 

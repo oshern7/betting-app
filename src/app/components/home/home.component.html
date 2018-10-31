@@ -22,7 +22,9 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="winPool">
       <th mat-header-cell *matHeaderCellDef> Win Pool </th>
-      <td mat-cell *matCellDef="let element"> {{element.poolAmount}} </td>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.odds!==null">{{element.poolAmount}}</span>
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->
@@ -52,7 +54,9 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="probability">
       <th mat-header-cell *matHeaderCellDef> Probability </th>
-      <td mat-cell *matCellDef="let element"> <span *ngIf="element.odds!=='SC'">{{element.probability|number:'1.0-1'}}%</span> </td>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.odds!=='SC' && element.odds!==null">{{element.probability|number:'1.0-1'}}%</span>
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->
@@ -70,7 +74,9 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="betSize">
       <th mat-header-cell *matHeaderCellDef> Bet Size </th>
-      <td mat-cell *matCellDef="let element"> {{element.betSize|number: '1.0-3' }} % </td>
+      <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.odds!=='SC' && element.odds!==null">{{element.betSize|number: '1.0-3' }} %</span>
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->

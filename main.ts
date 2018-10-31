@@ -28,7 +28,7 @@ function createWindow() {
     });
     win.loadURL('http://localhost:4201');
     if (!BASE_URL) {
-      BASE_URL = 'http://localhost:3000';
+      BASE_URL = 'http://localhost:4201';
     }
   } else {
     win.loadURL(url.format({
