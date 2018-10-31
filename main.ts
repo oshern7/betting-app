@@ -30,6 +30,7 @@ function createWindow() {
     if (!BASE_URL) {
       BASE_URL = 'http://localhost:4201';
     }
+    win.webContents.openDevTools();
   } else {
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
@@ -38,8 +39,6 @@ function createWindow() {
     }));
     BASE_URL = 'http://18.224.136.89:3000';
   }
-
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
