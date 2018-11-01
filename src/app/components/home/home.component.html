@@ -75,14 +75,16 @@
     <ng-container matColumnDef="betSize">
       <th mat-header-cell *matHeaderCellDef> Bet Size </th>
       <td mat-cell *matCellDef="let element">
-          <span *ngIf="element.odds!=='SC' && element.odds!==null">{{(element.betSize*100)|number: '1.0-1' }} %</span>
+        <span *ngIf="element.odds!=='SC' && element.odds!==null && element.betSize > 0">{{(element.betSize*100)|number: '1.0-1' }} %</span>
       </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="bet">
       <th mat-header-cell *matHeaderCellDef> Bet </th>
-      <td mat-cell *matCellDef="let element">{{ element.bet|currency }}</td>
+      <td mat-cell *matCellDef="let element">
+        <span  *ngIf="element.bet > 0">{{ element.bet|currency }}</span>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
