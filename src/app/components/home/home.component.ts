@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   calcBet(balance) {
     this.dataSource.forEach(row => {
       row.bet = balance * row.betSize * row.kelly;
-      if (row.bet < 0) {
+      if (row.bet < 0 || row.ev < 2) {
         row.bet = 0;
       }
     });
