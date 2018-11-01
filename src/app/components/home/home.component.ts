@@ -58,32 +58,27 @@ export class HomeComponent implements OnInit {
   }
 
   bet(ev) {
-    // const csv = this.dataSource.filter(row => row.bet >= 2)
-    //   .map(row => [
-    //       AppConfig.accountNumber,
-    //       AppConfig.accountPin,
-    //       ev.date,
-    //       ev.track,
-    //       ev.race,
-    //       'WIN',
-    //       row.pgm,
-    //       2,
-    //       'WHEEL'
-    //     ].join(',')
-    //   ).join('\n');
+    const csv = this.dataSource.filter(row => row.bet >= 2)
+      .map(row => [
+          AppConfig.accountNumber,
+          AppConfig.accountPin,
+          ev.date,
+          ev.track,
+          ev.race,
+          'WIN',
+          row.pgm,
+          row.bet.toFixed(2),
+          'WHEEL'
+        ].join(',')
+      ).join('\n');
 
-    const csv = [
-      AppConfig.accountNumber,
-      AppConfig.accountPin,
-      ev.date,
-      this.dataSource[0].event,
-      ev.race,
-      'WIN',
-      1,
-      2,
-      'WHEEL'
-    ].join(',');
+    console.log(csv);
+    if (csv) {
+      console.log('Upload');
+    } else {
+      console.log('There are no racers with minimum betting amount of $2.00');
+    }
 
-    this.electron.uploadBets(csv);
+    // this.electron.uploadBets(csv);
   }
 }

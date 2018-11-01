@@ -55,7 +55,7 @@
     <ng-container matColumnDef="probability">
       <th mat-header-cell *matHeaderCellDef> Probability </th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.odds!=='SC' && element.odds!==null">{{element.probability|number:'1.0-1'}}%</span>
+        <span *ngIf="element.odds!=='SC' && element.odds!==null">{{(element.probability * 100)|number:'1.0-1'}}%</span>
       </td>
     </ng-container>
 
@@ -75,7 +75,7 @@
     <ng-container matColumnDef="betSize">
       <th mat-header-cell *matHeaderCellDef> Bet Size </th>
       <td mat-cell *matCellDef="let element">
-          <span *ngIf="element.odds!=='SC' && element.odds!==null">{{element.betSize|number: '1.0-3' }} %</span>
+          <span *ngIf="element.odds!=='SC' && element.odds!==null">{{(element.betSize*100)|number: '1.0-1' }} %</span>
       </td>
     </ng-container>
 
