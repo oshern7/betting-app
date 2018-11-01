@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "4.2.2",
-  "description": "Angular 6 with Electron (Typescript + SASS + Hot Reload)",
+  "name": "betting_app",
+  "version": "1.0.0",
+  "description": "Betting Application",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Jose Lopez",
+    "email": "lopezjose50518@gmail.com"
   },
   "keywords": [
     "angular",
