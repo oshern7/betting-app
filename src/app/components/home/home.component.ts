@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 import { Row } from '../../models/row';
@@ -22,7 +23,11 @@ export class HomeComponent implements OnInit {
 
   mtp = '';
 
-  constructor(public data: DataService, private electron: ElectronService) { }
+  constructor(
+    public data: DataService,
+    public snackBar: MatSnackBar,
+    private electron: ElectronService
+  ) { }
 
   ngOnInit() {
     this.subscriptions.push(
@@ -72,13 +77,12 @@ export class HomeComponent implements OnInit {
         ].join(',')
       ).join('\n');
 
-    console.log(csv);
     if (csv) {
-      console.log('Upload');
+      this.electron.uploadBets(csv);
     } else {
-      console.log('There are no racers with minimum betting amount of $2.00');
+      this.snackBar.open('There are no racers with minimum betting amount of $2.00', '', {
+        duration: 3000
+      });
     }
-
-    // this.electron.uploadBets(csv);
   }
 }
