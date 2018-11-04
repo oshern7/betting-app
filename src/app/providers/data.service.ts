@@ -29,9 +29,6 @@ export class DataService {
   }
 
   setRecords(records) {
-    if (records.length > 0) {
-      this.setMTP( +(records[0].mtp) );
-    }
     this.records.next(records);
   }
 

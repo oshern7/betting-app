@@ -9,12 +9,10 @@ export class Row {
   rank: number;
   probability: number;
   ev: number;
-  ep: number;
   edge: number;
   betSize: number;
   kelly: number;
   bet: number;
-  event: string;
 
   constructor(data?) {
     if (data) {
@@ -28,11 +26,9 @@ export class Row {
       this.setNumber(data, 'rank');
       this.setNumber(data, 'probability');
       this.setNumber(data, 'ev');
-      this.setNumber(data, 'ep');
       this.setNumber(data, 'edge');
       this.setNumber(data, 'betSize');
       this.setNumber(data, 'kelly');
-      this.setString(data, 'event');
     }
   }
 

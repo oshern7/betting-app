@@ -1,52 +1,98 @@
-<div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="date" (ngModelChange)="getTracks()" placeholder="Choose a date" (click)="picker.open()" readonly>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+<div class="container" fxLayout="row" fxLayoutAlign="none center">
+  <div class="mat-title mr-16 mb-8">
+    Current Track
+  </div>
 
-  <mat-form-field>
-    <mat-select placeholder="TRACK CODE" [(ngModel)]="track" (selectionChange)="getRaces()" (openedChange)="openTracks($event)">
-      <mat-option [value]="tr" *ngFor="let tr of tracks">{{ tr }}</mat-option>
-      <mat-option *ngIf="!tracks.length">No tracks</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-select placeholder="RACE" [(ngModel)]="race">
-      <mat-option [value]="r" *ngFor="let r of races">{{ r }}</mat-option>
-      <mat-option *ngIf="!races.length">No races found. Please choose a track.</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-select placeholder="MODEL" [(ngModel)]="model">
-      <mat-option [value]="m" *ngFor="let m of models">{{ m }}</mat-option>
-      <mat-option *ngIf="!models.length">No models uploaded yet.</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
-
-  <button class="mb-8" mat-raised-button color="primary" (click)="openUploadTypeSheet()">Upload</button>
+  <button class="mb-8" mat-icon-button color="primary" (click)="toggleFilter()">
+    <mat-icon *ngIf="!visible">expand_more</mat-icon>
+    <mat-icon *ngIf="visible">expand_less</mat-icon>
+  </button>
 </div>
+<div *ngIf="visible">
+  <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="date" (ngModelChange)="getTracks()" placeholder="Choose a date" (click)="picker.open()" readonly>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-<div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
-  <mat-form-field>
-    <input type="number" matInput placeholder="MTP" [value]="data.mtp === -1 ? '' : data.mtp" readonly/>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="TRACK CODE" [(ngModel)]="track" (selectionChange)="getRaces()" (openedChange)="openTracks($event)">
+        <mat-option [value]="tr" *ngFor="let tr of tracks">{{ tr }}</mat-option>
+        <mat-option *ngIf="!tracks.length">No tracks</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input type="text" matInput placeholder="BALANCE" [value]="data.balance | async | currency" (change)="change($event)"/>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="RACE" [(ngModel)]="race" (selectionChange)="raceChanged($event)">
+        <mat-option [value]="r.race" *ngFor="let r of races">{{ r.race }}</mat-option>
+        <mat-option *ngIf="!races.length">No races found. Please choose a track.</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <mat-form-field>
+      <mat-select placeholder="MODEL" [(ngModel)]="model">
+        <mat-option [value]="m" *ngFor="let m of models">{{ m }}</mat-option>
+        <mat-option *ngIf="!models.length">No models uploaded yet.</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-select placeholder="Bet Type" [(ngModel)]="betType">
-      <mat-option value="manual">Manually</mat-option>
-      <mat-option value="mtp">Based on MTP</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
 
-  <button mat-raised-button color="primary" *ngIf="betType==='manual'" (click)="bet()">Bet</button>
+    <button class="mb-8" mat-raised-button color="primary" (click)="openUploadTypeSheet()">Upload</button>
+  </div>
+
+  <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+    <mat-form-field>
+      <input type="number" matInput placeholder="MTP" [value]="mtp === -1 ? '' : mtp" readonly/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="text" matInput placeholder="BALANCE" [value]="data.balance | async" (change)="change($event)"/>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Bet Type" [(ngModel)]="betType">
+        <mat-option value="manual">Manually</mat-option>
+        <mat-option value="mtp">Based on MTP</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button class="mb-8" mat-raised-button color="primary" *ngIf="betType==='manual'" (click)="bet()">Bet</button>
+  </div>
+</div>
+<div class="container mb-8" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="16px" *ngIf="raceObj">
+    <div class="mb-8">
+      <span class="mat-body-1">Date:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ date | date: 'mediumDate' }}</span>
+    </div>
+    <div class="mb-8">
+      <span class="mat-body-1">Track:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ raceObj.track }}</span>
+    </div>
+    <div class="mb-8">
+      <span class="mat-body-1">Event:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ raceObj.event }}</span>
+    </div>
+    <div class="mb-8">
+      <span class="mat-body-1">Race:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ raceObj.race }}</span>
+    </div>
+    <div class="mb-8">
+      <span class="mat-body-1">Model:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ model }}</span>
+    </div>
+    <div class="mb-8">
+      <span class="mat-body-1">MTP:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ data.mtp }}</span>
+    </div>
+  </div>
+  <div class="mat-subheading-1 mb-0" *ngIf="!raceObj">
+    No track was select. Please select a race.
+  </div>
+  <div>
+    <span class="mat-subheading-1">Amount:&nbsp;&nbsp;</span>
+    <span class="mat-subheading-2">{{ data.balance | async | currency }}</span>
+  </div>
 </div>

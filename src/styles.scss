@@ -9,8 +9,12 @@ html, body {
   height: 100%;
 }
 
+.mb-0 {
+  margin: 0;
+}
+
 .mb-8 {
-  margin-bottom: 8px;
+  margin-bottom: 8px !important;
 }
 
 .text-center {
@@ -18,5 +22,9 @@ html, body {
 }
 
 .p-24 {
-  padding: 24px;
+  padding: 24px !important;
+}
+
+.mr-16 {
+  margin-right: 16px;
 }
