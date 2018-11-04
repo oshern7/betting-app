@@ -87,6 +87,10 @@
       <span class="mat-body-1">MTP:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ data.mtp }}</span>
     </div>
+    <div class="mb-8">
+      <span class="mat-body-1">Bet:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ betType === 'mtp' ? 'Manually' : 'Base on MTP' }}</span>
+    </div>
   </div>
   <div class="mat-subheading-1 mb-0" *ngIf="!raceObj">
     No track was select. Please select a race.
