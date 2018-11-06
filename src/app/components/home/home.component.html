@@ -83,7 +83,7 @@
     <ng-container matColumnDef="bet">
       <th mat-header-cell *matHeaderCellDef> Bet </th>
       <td mat-cell *matCellDef="let row">
-        <span  *ngIf="row.bet > 0">{{ row.bet|currency }}</span>
+        <span  *ngIf="row.bet >= 2">{{ row.bet|currency }}</span>
       </td>
     </ng-container>
 

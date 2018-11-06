@@ -31,23 +31,6 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="MODEL" [(ngModel)]="model">
-        <mat-option [value]="m" *ngFor="let m of models">{{ m }}</mat-option>
-        <mat-option *ngIf="!models.length">No models uploaded yet.</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button class="mb-8" mat-raised-button color="primary" (click)="filter()">Filter</button>
-
-    <button class="mb-8" mat-raised-button color="primary" (click)="openUploadTypeSheet()">Upload</button>
-  </div>
-
-  <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
-    <mat-form-field>
-      <input type="number" matInput placeholder="MTP" [value]="mtp === -1 ? '' : mtp" readonly/>
-    </mat-form-field>
-
-    <mat-form-field>
       <input type="text" matInput placeholder="BALANCE" [value]="data.balance | async" (change)="change($event)"/>
     </mat-form-field>
 
@@ -58,7 +41,14 @@
       </mat-select>
     </mat-form-field>
 
-    <button class="mb-8" mat-raised-button color="primary" *ngIf="betType==='manual'" (click)="bet()">Bet</button>
+    <mat-form-field>
+      <input type="number" matInput placeholder="MTP" [value]="mtp === -1 ? '' : mtp" readonly/>
+    </mat-form-field>
+  </div>
+
+  <div class="container mb-16" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+    <button mat-raised-button color="primary" (click)="filter()">Filter</button>
+    <button mat-raised-button color="primary" (click)="openUploadTypeSheet()">Upload</button>
   </div>
 </div>
 <div class="container mb-8" fxLayout="row" fxLayoutAlign="space-between center">
@@ -80,10 +70,6 @@
       <span class="mat-body-2">{{ raceObj.race }}</span>
     </div>
     <div class="mb-8">
-      <span class="mat-body-1">Model:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ model }}</span>
-    </div>
-    <div class="mb-8">
       <span class="mat-body-1">MTP:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ data.mtp }}</span>
     </div>
@@ -100,4 +86,7 @@
     <span class="mat-subheading-1">Amount:&nbsp;&nbsp;</span>
     <span class="mat-subheading-2">{{ data.balance | async | currency }}</span>
   </div>
+</div>
+<div class="container" fxLayout="row" fxLayoutAlign="end start">
+  <button class="mb-8" mat-raised-button color="primary" *ngIf="betType==='manual' && raceObj" (click)="bet()">Bet</button>
 </div>

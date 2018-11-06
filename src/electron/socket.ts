@@ -11,8 +11,8 @@ export default (win, baseUrl) => {
   // IPC channels
   if (!socket) {
     ipcMain.on('set-room', (event, args) => {
-      const { date, track, race, model } = args;
-      socket.emit('set-room', { date, track, race, model });
+      const { RaceId } = args;
+      socket.emit('set-room', { RaceId });
       event.sender.send('set-room', {success: 1});
     });
   }

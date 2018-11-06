@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   bet(ev) {
-    const csv = this.dataSource.filter(row => row.bet >= 2)
+    const csv = this.dataSource.filter(row => row.bet >= 2 && row.ev >= 2)
       .map(row => [
           AppConfig.accountNumber,
           AppConfig.accountPin,

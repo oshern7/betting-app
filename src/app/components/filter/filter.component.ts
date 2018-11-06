@@ -19,12 +19,10 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   tracks = [];
   races = [];
-  models = [];
 
   date = new Date();
   track = '';
   race = -1;
-  model = '';
   betType = '';
   timer: any;
   mtp = '';
@@ -51,12 +49,6 @@ export class FilterComponent implements OnInit, OnDestroy {
       this.data.races.subscribe(races => {
         this.races = races;
         this.races.sort((r1, r2) => Number(r1.race) - Number(r2.race));
-      })
-    );
-
-    this.subscriptions.push(
-      this.data.models.subscribe(models => {
-        this.models = models;
       })
     );
 
@@ -111,12 +103,12 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   filter() {
-    if (this.date && this.track && this.race && this.model) {
+    if (this.date && this.track && this.race) {
       const d = dateStr(this.date);
       this.data.setMTP(-1);
       this.data.setMTP(this.race);
       this.raceObj = this.races.find(r => r.race === this.race);
-      this.electron.setRoom(d, this.track, this.race, this.model);
+      this.electron.setRoom(this.raceObj.RaceId);
       this.visible = false;
     }
   }

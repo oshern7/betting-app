@@ -20,7 +20,7 @@ function createWindow() {
     height: size.height
   });
 
-  let BASE_URL = process.env.BASE_API_URL || 'http://18.224.136.89:3000';
+  let BASE_URL = process.env.BASE_API_URL || 'http://localhost:3000';
 
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -37,7 +37,6 @@ function createWindow() {
       protocol: 'file:',
       slashes: true
     }));
-    // BASE_URL = 'http://18.224.136.89:3000';
   }
 
   // Emitted when the window is closed.

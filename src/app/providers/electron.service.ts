@@ -64,8 +64,8 @@ export class ElectronService {
     });
   }
 
-  setRoom(date, track, race, model) {
-    this.send('set-room', {date, track, race, model})
+  setRoom(RaceId) {
+    this.send('set-room', { RaceId })
       .subscribe(() => {});
   }
 
