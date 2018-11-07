@@ -23,30 +23,11 @@ export class ElectronService {
   }
 
   getTracksByDate(date) {
-    this.send('get-tracks', { date })
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.data.setTracks(res.tracks);
-        }
-      });
+    return this.send('get-tracks', { date });
   }
 
   getRacesByDateAndTrack(date, track) {
-    this.send('get-races', { track, date })
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.data.setRaces(res.races);
-        }
-      });
-  }
-
-  getModels() {
-    this.send('get-models')
-      .subscribe((res: any) => {
-        if (res.success) {
-          this.data.setModels(res.models);
-        }
-      });
+    return this.send('get-races', { track, date });
   }
 
   initSocket() {
@@ -71,24 +52,30 @@ export class ElectronService {
 
   uploadRatings(content) {
     this.send('upload-ratings', { content })
-      .subscribe(() => {});
+      .subscribe(() => {
+        console.log('Ratings uploaded successfully')
+      });
   }
 
   uploadBettingModels(content) {
     this.send('upload-betting-models', { content })
       .subscribe(() => {
-        this.getModels();
+        console.log('Models uploaded successfully')
       });
   }
 
   uploadRebates(content) {
     this.send('upload-rebates', { content })
-      .subscribe(() => {});
+      .subscribe(() => {
+        console.log('Rebates uploaded successfully')
+      });
   }
 
   uploadBets(data) {
     this.send('upload-betting', data)
-      .subscribe(() => {})
+      .subscribe(() => {
+        console.log('Betting was done successfully')
+      })
   }
 
   private listen(ch) {

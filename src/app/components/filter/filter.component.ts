@@ -18,14 +18,15 @@ export class FilterComponent implements OnInit, OnDestroy {
   @ViewChild('fileControl') fileControl:ElementRef;
 
   tracks = [];
+  loadingTracks = true;
   races = [];
+  loadingRaces = true;
 
   date = new Date();
   track = '';
   race = -1;
   betType = '';
-  timer: any;
-  mtp = '';
+  mtp = 0;
   raceObj: Race;
   visible = false;
 
@@ -39,75 +40,71 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.push(
-      this.data.tracks.subscribe(tracks => {
-        this.tracks = tracks;
-        this.tracks.sort();
-      })
-    );
-
-    this.subscriptions.push(
-      this.data.races.subscribe(races => {
-        this.races = races;
-        this.races.sort((r1, r2) => Number(r1.race) - Number(r2.race));
-      })
-    );
-
-    this.subscriptions.push(
       this.data.onMTP.subscribe(() => {
         if (this.betType === 'mtp') {
           this.bet();
         }
       })
     );
-
-    this.getTracks();
-    this.electron.getModels();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();
     });
-
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
   }
 
-  getRaces() {
-    this.race = null;
+  getRaces(opened) {
+    if (opened) {
+    this.race = -1;
     const d = dateStr(this.date);
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-    this.electron.getRacesByDateAndTrack(d, this.track);
-    this.timer = setInterval(() => {
-      this.electron.getRacesByDateAndTrack(d, this.track);
-    }, 60000);
-  }
-
-  openTracks(opened) {
-    if(opened) {
-      this.getTracks();
+    this.loadingRaces = true;
+    this.electron.getRacesByDateAndTrack(d, this.track)
+      .subscribe((res: any) => {
+        if (res.success) {
+          res.races.sort((r1, r2) => Number(r1.race) - Number(r2.race));
+          this.races = res.races;
+          this.loadingRaces = false;
+        }
+      })
     }
   }
 
-  getTracks() {
-    const d = dateStr(this.date);
-    this.electron.getTracksByDate(d);
+  getTracks(opened) {
+    if (opened) {
+      const d = dateStr(this.date);
+      this.loadingTracks = true;
+      this.electron.getTracksByDate(d)
+        .subscribe((res: any) => {
+          if (res.success) {
+            res.tracks.sort();
+            this.tracks = res.tracks;
+            this.loadingTracks = false;
+          }
+        });
+    }
+  }
+
+  trackChanged(ev) {
+    this.races = [];
+    this.race = -1;
+    this.loadingRaces = true;
+    console.log('track changed')
   }
 
   raceChanged(ev) {
-    const raceObj = this.races.find(r => r.race === ev.value);
-    this.mtp = raceObj.mtp;
+    this.raceObj = this.races.find(r => r.race === ev.value);
+    this.mtp = 0;
+    if (this.raceObj) {
+      this.mtp = this.raceObj.mtp;
+    }
   }
 
   filter() {
     if (this.date && this.track && this.race) {
       const d = dateStr(this.date);
       this.data.setMTP(-1);
-      this.data.setMTP(this.race);
-      this.raceObj = this.races.find(r => r.race === this.race);
+      this.data.setMTP(this.raceObj.mtp);
       this.electron.setRoom(this.raceObj.RaceId);
       this.visible = false;
     }

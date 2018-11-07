@@ -9,25 +9,39 @@
   </button>
 </div>
 <div *ngIf="visible">
-  <div class="container" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
+  <div class="container" fxLayout="row wrap" fxLayoutGap="16px" fxLayoutAlign="none center">
     <mat-form-field>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="date" (ngModelChange)="getTracks()" placeholder="Choose a date" (click)="picker.open()" readonly>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date" (click)="picker.open()" readonly>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="TRACK CODE" [(ngModel)]="track" (selectionChange)="getRaces()" (openedChange)="openTracks($event)">
+      <mat-select placeholder="TRACK CODE" [(ngModel)]="track" (selectionChange)="trackChanged($event)" (openedChange)="getTracks($event)">
         <mat-option [value]="tr" *ngFor="let tr of tracks">{{ tr }}</mat-option>
-        <mat-option *ngIf="!tracks.length">No tracks</mat-option>
+        <mat-option *ngIf="!loadingTracks && !tracks.length">No tracks</mat-option>
+        <mat-option *ngIf="loadingTracks">
+          <span fxLayout="row" fxLayoutAlign="center center">
+            <mat-spinner diameter="24"></mat-spinner>
+          </span>
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="RACE" [(ngModel)]="race" (selectionChange)="raceChanged($event)">
+      <mat-select placeholder="RACE" [(ngModel)]="race" (selectionChange)="raceChanged($event)" (openedChange)="getRaces($event)">
         <mat-option [value]="r.race" *ngFor="let r of races">{{ r.race }}</mat-option>
-        <mat-option *ngIf="!races.length">No races found. Please choose a track.</mat-option>
+        <mat-option *ngIf="!loadingRaces && !races.length">No races</mat-option>
+        <mat-option *ngIf="loadingRaces">
+          <span fxLayout="row" fxLayoutAlign="center center">
+            <mat-spinner diameter="24"></mat-spinner>
+          </span>
+        </mat-option>
       </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" matInput placeholder="MTP" [value]="mtp" readonly/>
     </mat-form-field>
 
     <mat-form-field>
@@ -40,10 +54,6 @@
         <mat-option value="mtp">Based on MTP</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <mat-form-field>
-      <input type="number" matInput placeholder="MTP" [value]="mtp === -1 ? '' : mtp" readonly/>
-    </mat-form-field>
   </div>
 
   <div class="container mb-16" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="none center">
@@ -53,27 +63,31 @@
 </div>
 <div class="container mb-8" fxLayout="row" fxLayoutAlign="space-between center">
   <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="16px" *ngIf="raceObj">
-    <div class="mb-8">
+    <div>
       <span class="mat-body-1">Date:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ date | date: 'mediumDate' }}</span>
     </div>
-    <div class="mb-8">
+    <div>
       <span class="mat-body-1">Track:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ raceObj.track }}</span>
     </div>
-    <div class="mb-8">
+    <div>
       <span class="mat-body-1">Event:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ raceObj.event }}</span>
     </div>
-    <div class="mb-8">
+    <div>
       <span class="mat-body-1">Race:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ raceObj.race }}</span>
     </div>
-    <div class="mb-8">
+    <div>
+      <span class="mat-body-1">Model:&nbsp;&nbsp;</span>
+      <span class="mat-body-2">{{ data.model | async }}</span>
+    </div>
+    <div>
       <span class="mat-body-1">MTP:&nbsp;&nbsp;</span>
       <span class="mat-body-2">{{ data.mtp }}</span>
     </div>
-    <div class="mb-8">
+    <div>
       <span class="mat-body-1">Bet:&nbsp;&nbsp;</span>
       <span class="mat-body-2" *ngIf="betType === 'manual'">Manually</span>
       <span class="mat-body-2" *ngIf="betType === 'mtp'">Base on MTP</span>
