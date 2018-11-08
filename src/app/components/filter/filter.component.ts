@@ -27,8 +27,8 @@ export class FilterComponent implements OnInit, OnDestroy {
   race = -1;
   betType = '';
   mtp = 0;
-  raceObj: Race;
   visible = false;
+  currentRace: Race;
 
   subscriptions: Subscription[] = [];
 
@@ -41,9 +41,16 @@ export class FilterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(
       this.data.onMTP.subscribe(() => {
+        console.log('Bet on MTP')
         if (this.betType === 'mtp') {
           this.bet();
         }
+      })
+    );
+
+    this.subscriptions.push(
+      this.data.currentRace.subscribe(race => {
+        this.currentRace = race;
       })
     );
   }
@@ -93,19 +100,17 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   raceChanged(ev) {
-    this.raceObj = this.races.find(r => r.race === ev.value);
+    const raceObj = this.races.find(r => r.race === ev.value);
     this.mtp = 0;
-    if (this.raceObj) {
-      this.mtp = this.raceObj.mtp;
+    if (raceObj) {
+      this.mtp = raceObj.mtp;
     }
   }
 
   filter() {
-    if (this.date && this.track && this.race) {
-      const d = dateStr(this.date);
-      this.data.setMTP(-1);
-      this.data.setMTP(this.raceObj.mtp);
-      this.electron.setRoom(this.raceObj.RaceId);
+    const raceObj = this.races.find(r => r.race === this.race);
+    if (raceObj) {
+      this.electron.setRoom(raceObj.id);
       this.visible = false;
     }
   }
@@ -124,12 +129,12 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   bet() {
-    if (this.raceObj) {
-      this.onBet.emit({
-        date: dateStr(this.date),
-        track: this.raceObj.event,
-        race: this.race
-      });
-    }
+    // if (this.raceObj) {
+    //   this.onBet.emit({
+    //     date: dateStr(this.date),
+    //     track: this.raceObj.event,
+    //     race: this.race
+    //   });
+    // }
   }
 }

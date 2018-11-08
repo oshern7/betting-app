@@ -8,6 +8,7 @@ export class DataService {
 
   tracks = new BehaviorSubject([]);
   races = new BehaviorSubject([]);
+  currentRace = new BehaviorSubject(null);
   records = new BehaviorSubject([]);
   balance = new BehaviorSubject(0);
   model = new BehaviorSubject('None');
@@ -44,10 +45,19 @@ export class DataService {
   }
 
   setMTP(mtp: number) {
+    console.log('MTP updated: ', mtp)
     if (mtp === 0 && this.mtp > 0) {
       this.onMTP.next();
     }
 
     this.mtp = mtp;
+  }
+
+  setRace(race) {
+    const crace = this.currentRace.value;
+    if (crace && crace.id === race.id && crace.mtp > 0 && race.mtp === "0") {
+      this.onMTP.next();
+    }
+    this.currentRace.next(race);
   }
 }

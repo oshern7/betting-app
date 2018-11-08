@@ -36,11 +36,9 @@ export class ElectronService {
 
   listenToFeeds() {
     this.listen('feed').subscribe((data: any) => {
-      this.data.setRecords(data && data.data);
-      if (data && data.race) {
-        this.data.setMTP(data.race.mtp);
-      } else {
-        this.data.setMTP(-1);
+      if (data) {
+        this.data.setRecords(data.data);
+        this.data.setRace(data.race)
       }
     });
   }

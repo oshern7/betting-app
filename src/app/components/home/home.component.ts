@@ -72,12 +72,13 @@ export class HomeComponent implements OnInit {
           ev.race,
           'WIN',
           row.pgm,
-          row.bet.toFixed(2),
+          Math.round(row.bet),
           'WHEEL'
         ].join(',')
       ).join('\n');
 
     if (csv) {
+      console.log('upload bet: \n', csv)
       this.electron.uploadBets(csv);
     } else {
       this.snackBar.open('There are no racers with minimum betting amount of $2.00', '', {

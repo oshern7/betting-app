@@ -62,22 +62,22 @@
   </div>
 </div>
 <div class="container mb-8" fxLayout="row" fxLayoutAlign="space-between center">
-  <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="16px" *ngIf="raceObj">
+  <div fxLayout="row" fxLayoutAlign="none center" fxLayoutGap="16px" *ngIf="currentRace">
     <div>
       <span class="mat-body-1">Date:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ date | date: 'mediumDate' }}</span>
+      <span class="mat-body-2">{{ currentRace.date | date: 'mediumDate' }}</span>
     </div>
     <div>
       <span class="mat-body-1">Track:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ raceObj.track }}</span>
+      <span class="mat-body-2">{{ currentRace.track }}</span>
     </div>
     <div>
       <span class="mat-body-1">Event:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ raceObj.event }}</span>
+      <span class="mat-body-2">{{ currentRace.event }}</span>
     </div>
     <div>
       <span class="mat-body-1">Race:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ raceObj.race }}</span>
+      <span class="mat-body-2">{{ currentRace.race }}</span>
     </div>
     <div>
       <span class="mat-body-1">Model:&nbsp;&nbsp;</span>
@@ -85,7 +85,7 @@
     </div>
     <div>
       <span class="mat-body-1">MTP:&nbsp;&nbsp;</span>
-      <span class="mat-body-2">{{ data.mtp }}</span>
+      <span class="mat-body-2">{{ currentRace.mtp }}</span>
     </div>
     <div>
       <span class="mat-body-1">Bet:&nbsp;&nbsp;</span>
@@ -93,8 +93,8 @@
       <span class="mat-body-2" *ngIf="betType === 'mtp'">Base on MTP</span>
     </div>
   </div>
-  <div class="mat-subheading-1 mb-0" *ngIf="!raceObj">
-    No track was select. Please select a race.
+  <div class="mat-subheading-1 mb-0" *ngIf="!currentRace">
+    Please select a race.
   </div>
   <div>
     <span class="mat-subheading-1">Amount:&nbsp;&nbsp;</span>
@@ -102,5 +102,5 @@
   </div>
 </div>
 <div class="container" fxLayout="row" fxLayoutAlign="end start">
-  <button class="mb-8" mat-raised-button color="primary" *ngIf="betType==='manual' && raceObj" (click)="bet()">Bet</button>
+  <button class="mb-8" mat-raised-button color="primary" *ngIf="betType==='manual' && currentRace" (click)="bet()">Bet</button>
 </div>

@@ -1,5 +1,5 @@
 export class Race {
-  RaceId: string;
+  id: string;
   date: string;
   track: string;
   event: string;
@@ -8,7 +8,7 @@ export class Race {
 
   constructor(data?) {
     if (data) {
-      this.setString(data, 'RaceId');
+      this.setString(data, 'id');
       this.setString(data, 'date');
       this.setString(data, 'track');
       this.setString(data, 'event');
